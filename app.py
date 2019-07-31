@@ -30,14 +30,28 @@ def signup():
     return home()
 
 
-@app.route('/logged-in')
+@app.route('/logged-in', methods = ['GET','POST'])
 def logged_in():
-    return render_template('logged.html')
+    if request.method == 'POST':
+        update_fav_food
+    print("login_session['name'] is : " + login_session["name"])
+    fav = get_user(login_session['name']).fav_food
+    return render_template('logged.html',fav=fav)
 
 
 @app.route('/logout')
 def logout():
+    login_session['logged_in']= False
+    login_session['name']= None
     return home()
+'''
+@app.route('/favorite food')
+def update_food():
+    # Get the user (of username)
+    user = get_user(username)
+    # Update the user's fav_food to favoritefood
+    user.edit_fav_food(favoritefood)
+'''
 
 
 
